@@ -1,0 +1,17 @@
+* [33mcommit 0ca7ca75128d28df56c08c19621290f31605751e[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+[31m|[m Author: Maheel <Maheellakshanra@gmail.com>
+[31m|[m Date:   Tue Feb 21 23:43:17 2023 +0530
+[31m|[m 
+[31m|[m     Dashboard is done, navigation has to be done
+[31m|[m 
+* [33mcommit be53c989d5c7f05cd3bd54dcba18db01820a38ce[m
+[31m|[m Author: Maheel <Maheellakshanra@gmail.com>
+[31m|[m Date:   Tue Feb 21 15:23:18 2023 +0530
+[31m|[m 
+[31m|[m     Fine with the SlideBar
+[31m|[m 
+* [33mcommit ba169484900dabf800f1f7612b21f63833154a73[m
+  Author: Maheel <Maheellakshanra@gmail.com>
+  Date:   Tue Feb 21 03:51:33 2023 +0530
+  
+      Initialize project using Create React App

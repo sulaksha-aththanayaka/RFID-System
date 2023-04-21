@@ -1,0 +1,41 @@
+.container {
+  padding-top: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+table {
+  width: 700px;
+  height: 500px;
+  border-collapse: collapse;
+  overflow: scroll;
+  box-shadow: 0 0 20px rgba(215, 7, 7, 0.1);
+}
+th,
+td {
+  padding: 15px;
+  background-color: rgba(204, 195, 195, 0);
+  color: #0f0d13;
+}
+th {
+  text-align: left;
+}
+thead th {
+  background-color: var(--activeItem);
+}
+tbody tr:hover {
+  background-color: rgba(21, 23, 24, 0.238);
+}
+tbody td {
+  position: relative;
+}
+tbody td:hover:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -9999px;
+  bottom: -9999px;
+  background-color: rgb(255, 255, 255);
+  z-index: -1;
+}
