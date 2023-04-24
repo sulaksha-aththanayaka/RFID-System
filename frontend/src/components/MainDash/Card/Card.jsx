@@ -166,6 +166,7 @@ function ExpandedCard({ param, setExpanded }) {
           {param.users.map((data) => (
             <div>
               <p>{data.name}</p>
+              <p>{data.phn}</p>
             </div>
           ))}
         </p>
