@@ -117,7 +117,7 @@ export const cardsData = [
       backGround: "linear-gradient(180deg, #FF919D 0%, #FC929D 100%)",
       boxShadow: "0px 10px 20px 0px #FDC0C7",
     },
-    value: "12",
+    // value: "12",
   },
   {
     title: "To Be Handover",
@@ -127,7 +127,7 @@ export const cardsData = [
       boxShadow: "0px 10px 20px 0px #F9D59B",
     },
     barValue: 40,
-    value: "12",
+    // value: "12",
     png: UilClipboardAlt,
     series: [
       {

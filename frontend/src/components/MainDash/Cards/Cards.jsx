@@ -2,13 +2,14 @@ import React, {useState} from 'react';
 import './Cards.css';
 import { cardsData } from '../../../Data/Data';
 import Card from '../Card/Card';
-import CardUser from "../Card/CardUser";
+// import CardUser from "../Card/CardUser";
 import axios from 'axios';
 
 
 const Cards = () => {
   const [allUsers, setAllUsers] = useState([]);
   const [allKeys, setAllKeys] = useState([]);
+  const [allCombined, setAllCombined] = useState([]);
 
   axios.get('http://localhost:5000/cards').then(resp => {
 
@@ -18,6 +19,11 @@ const Cards = () => {
   axios.get('http://localhost:5000/keys').then(resp => {
 
   setAllKeys(resp.data);
+});
+
+axios.get('http://localhost:5000/combineddatas').then(resp => {
+
+  setAllCombined(resp.data);
 });
 
   return (
@@ -35,6 +41,7 @@ const Cards = () => {
               series={card.series}
               users ={allUsers}
               keys={allKeys}
+              combined={allCombined}
               id = {id}
             />
             {/* <Cards
