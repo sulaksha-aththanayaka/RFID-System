@@ -8,7 +8,7 @@ const CombinedSchema = mongoose.Schema({
   place: String,
   date: {
     type: Date,
-    default: Date.now
+    default: Date()
   }
 });
 

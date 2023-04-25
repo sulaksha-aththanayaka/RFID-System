@@ -5,7 +5,7 @@ const CardsSchema = mongoose.Schema({
   fname: String,
   lname:String,
   gender:String,
-  designature: String,
+  designation: String,
   phn: String,
 });
 

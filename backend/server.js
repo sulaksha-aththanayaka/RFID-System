@@ -1,3 +1,4 @@
+
 const cors = require("cors");
 const express = require("express");
 const mongoose = require("mongoose");
@@ -129,6 +130,8 @@ mongoose
         // Remove old listener before adding a new one
         keyRef.off("value");
     
+        let dataSaved = false;
+
         keyRef.on(
           "value",
           async (keySnapshot) => {
@@ -151,14 +154,14 @@ mongoose
               console.log("Key has returned");
               saveReturnedData(combinedDoc.user_id, combinedDoc.key_id, combinedDoc.fname, combinedDoc.lname, combinedDoc.place);
               await combinedCollection.deleteOne({ key_id: firebaseKeyId });
-              db.ref().remove();
-            }else{
+            }else if(!dataSaved){
               saveCombinedData(cardDoc.user_id, keyDoc.key_id, cardDoc.fname, cardDoc.lname, keyDoc.place);
-              db.ref().remove();
             }
+              
+            db.ref().remove();
 
-            // const combinedDataRef = db.ref("combined_data");
-            // combinedDataRef.remove();
+            const combinedDataRef = db.ref("combined_data");
+            combinedDataRef.remove();
     
             console.log(`Key with ID ${firebaseKeyId} found in database!`);
             
@@ -218,7 +221,6 @@ function saveCombinedData(mongoUserId, mongoKeyId, mongoFName, mongoLName, mongo
     place: mongoPlace,
   });
 
-
  if(mongoFName) {
   newData
   .save()
@@ -234,6 +236,3 @@ function saveCombinedData(mongoUserId, mongoKeyId, mongoFName, mongoLName, mongo
   });
 }
 }
-
-
- 
