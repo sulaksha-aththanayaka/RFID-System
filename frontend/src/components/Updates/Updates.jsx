@@ -29,7 +29,7 @@ const Updates = () => {
 
   return (
     <div className="Updates">
-      <h2 className="Heading">Last Read</h2>
+      <h2 className="Heading">Most Recent Key Given</h2>
       {mostRecent && (
         <div className="update">
           {/* <img src={mostRecent.user_image} alt="profile" /> */}

@@ -1,7 +1,7 @@
 import React from 'react';
 import './History.css';
 import Slidebar from '../../Slidebar/Sidebar';
-import Table from '../../Table/Table';
+import TableReturned from '../../Table/TableReturned';
 
 function History() {
   return (
@@ -9,7 +9,7 @@ function History() {
       <div className="HistoryGlass">
         <Slidebar />
 
-        <Table />
+        <TableReturned />
       </div>
     </div>
   );

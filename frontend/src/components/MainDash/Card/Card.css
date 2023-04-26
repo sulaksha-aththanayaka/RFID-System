@@ -13,13 +13,13 @@
 }
 
 /* radial bar */
-.radialBar {
-  flex: 1 1;
+/* .radialBar {
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   gap: 1rem;
-}
+} */
 .CircularProgressbar {
   width: 4rem !important;
   overflow: visible;
@@ -84,7 +84,16 @@
 }
 
 .chartContainer {
-  width: 70%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.contRoot {
+  background-color: #444;
+  height: 10px;
+  width: 100%;
 }
 
 @media screen and (max-width: 1200px) {

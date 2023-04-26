@@ -1,4 +1,4 @@
-import { Box, Button, CardContent, Chip, Grid, Stack, TextField, Toolbar } from '@mui/material';
+import { AppBar, Box, Button, CardContent, Chip, CssBaseline, Grid, Stack, TextField, Toolbar, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import axios from 'axios';
 
@@ -25,8 +25,21 @@ function AddForm() {
 
 
   return (
-
-    <Box component="main" sx={{ flexGrow: 1, p: 3 ,backgroundColor:"#FFFFFF",height: '100%'}}>
+    <Box sx={{ display: 'flex' }}>
+        <CssBaseline/>
+        <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>   
+        </AppBar>
+        <Box
+          component="main"
+          sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
+        >
+          <Toolbar />
+          <Box sx={{ display: 'flex' }}>
+          <CssBaseline />
+          <Box component="main" sx={{ flexGrow: 1, p: 3 ,backgroundColor:"#000066",height: '100%'}}>
+          <Typography variant="h4" color="#FFFFFF"  sx={{ textAlign:'center'}} gutterBottom >Add Key</Typography>
+            <Toolbar />
+            <Box component="main" sx={{ flexGrow: 1, p: 3 ,backgroundColor:"#FFFFFF",height: '100%'}}>
            
             <Grid item xs={8} md={9}>
               <Box p={2}>
@@ -56,6 +69,13 @@ function AddForm() {
               </Box>
             </Grid>
           </Box>
+           
+          </Box>
+        </Box>
+        </Box>
+      </Box>
+
+    
     
   );
 }

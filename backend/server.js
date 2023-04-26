@@ -1,4 +1,3 @@
-
 const cors = require("cors");
 const express = require("express");
 const mongoose = require("mongoose");
@@ -9,6 +8,7 @@ const Keys = require("./keys");
 const Combined = require("./combinedData");
 const Returned = require("./returnedData");
 const serviceAccount = require("./serviceAccountKey.json");
+const { MongoClient } = require('mongodb');
 
 app.use(cors());
 app.use(express.json());
@@ -18,6 +18,7 @@ mongoose
     "mongodb+srv://sulakshaa04:GW1fiDlnG4QIWoKK@userdata.zqek2ja.mongodb.net/test?retryWrites=true&w=majority"
   )
   .then(() => {
+
     console.log("Connected to MongoDB");
     app.listen(5000, () => {
       console.log("Node API app is running on port 5000");
@@ -92,6 +93,12 @@ mongoose
       res.status(200).send(JSON.stringify(result));
     });
 
+    app.get("/api/returneddatas", async (req, res) => {
+      const result = await Returned.find();
+      // console.log(result);
+      res.status(200).send(JSON.stringify(result));
+    });
+
     app.get('/user_id', (req, res) => {
       const myVariable = 'Hello, world!'; // replace with your variable
       res.json({ myVariable });
@@ -122,6 +129,12 @@ mongoose
           console.log(`Card with ID ${firebaseUserId} not found in database.`);
           return;
         }
+
+        // app.get("/firebaseUser", (req, res) =>{
+        //   const myVariable = firebaseUserId; // replace with your variable
+        //   //res.json(myVariable);
+        //   res.status(200).send(JSON.stringify(myVariable));
+        // })
     
         console.log("Please scan the key.");
     
@@ -157,6 +170,12 @@ mongoose
             }else if(!dataSaved){
               saveCombinedData(cardDoc.user_id, keyDoc.key_id, cardDoc.fname, cardDoc.lname, keyDoc.place);
             }
+
+            // app.get("/firebaseKey", (req, res) =>{
+            //   const myVariable = firebaseKeyId; // replace with your variable
+            //  // res.json( myVariable );
+            //  res.status(200).send(JSON.stringify(myVariable));
+            // })
               
             db.ref().remove();
 
@@ -186,7 +205,17 @@ mongoose
   });
 
 
-  function saveReturnedData(mongoUserId, mongoKeyId, mongoFName, mongoLName, mongoPlace){
+  async function saveReturnedData(mongoUserId, mongoKeyId, mongoFName, mongoLName, mongoPlace){
+
+    const client = new MongoClient("mongodb+srv://sulakshaa04:GW1fiDlnG4QIWoKK@userdata.zqek2ja.mongodb.net/test?retryWrites=true&w=majority");
+    const collection = client.db("test").collection("returneddatas");
+
+   const existingDoc = await collection.findOne({ user_id: mongoUserId, key_id: mongoKeyId });
+   if (existingDoc) {
+     console.log(`Document with user_id ${mongoUserId} and key_id ${mongoKeyId} already exists.`);
+     return;
+   }
+
     const newData = new Returned({
       user_id: mongoUserId,
       key_id: mongoKeyId,
@@ -195,44 +224,75 @@ mongoose
       place: mongoPlace,
     });
 
-    if(mongoFName) {
-      newData
-      .save()
-      .then(() => {
-        console.log("Returned data saved to MongoDB!");
-        //remove data
-        const db = admin.database();
-        db.ref().remove();
-        console.log("Data removed from Firebase!");
-      })
-      .catch((error) => {
-        console.log(`Error saving data: ${error}`);
-      });
-    }
+    const result = await collection.insertOne(newData);
+    console.log(`${result.insertedCount} documents inserted.`);
+    client.close();
+
+    // if(mongoFName) {
+    //   newData
+    //   .save()
+    //   .then(() => {
+    //     console.log("Returned data saved to MongoDB!");
+    //     //remove data
+    //     const db = admin.database();
+    //     db.ref().remove();
+    //     console.log("Data removed from Firebase!");
+    //   })
+    //   .catch((error) => {
+    //     console.log(`Error saving data: ${error}`);
+    //   });
+    // }
   }
 
+  async function saveCombinedData(mongoUserId, mongoKeyId, mongoFName, mongoLName, mongoPlace) {
+   
+    const client = new MongoClient("mongodb+srv://sulakshaa04:GW1fiDlnG4QIWoKK@userdata.zqek2ja.mongodb.net/test?retryWrites=true&w=majority");
+    const collection = client.db("test").collection("combineddatas");
 
-function saveCombinedData(mongoUserId, mongoKeyId, mongoFName, mongoLName, mongoPlace) {
-  const newData = new Combined({
-    user_id: mongoUserId,
-    key_id: mongoKeyId,
-    fname: mongoFName,
-    lname: mongoLName,
-    place: mongoPlace,
-  });
+    const existingDoc = await collection.findOne({ user_id: mongoUserId, key_id: mongoKeyId });
+    if (existingDoc) {
+      console.log(`Document with user_id ${mongoUserId} and key_id ${mongoKeyId} already exists.`);
+      //return;
+    }
 
- if(mongoFName) {
-  newData
-  .save()
-  .then(() => {
-    console.log("Combined data saved to MongoDB!");
-    //remove data
-    const db = admin.database();
-    db.ref().remove();
-    console.log("Data removed from Firebase!");
-  })
-  .catch((error) => {
-    console.log(`Error saving data: ${error}`);
-  });
-}
-}
+    app.get("/firebaseUser", async (req, res) => {
+      const result = await Cards.findOne({ user_id: mongoUserId });;
+      // console.log(result);
+      res.status(200).send(JSON.stringify(result));
+    });
+
+    app.get("/firebaseKey", async (req, res) =>{
+      const result = await Keys.findOne({ key_id: mongoKeyId}); // replace with your variable
+     // res.json( myVariable );
+     res.status(200).send(JSON.stringify(result));
+    })
+
+
+    const newData = new Combined({
+      user_id: mongoUserId,
+      key_id: mongoKeyId,
+      fname: mongoFName,
+      lname: mongoLName,
+      place: mongoPlace,
+    });
+  
+    
+    const result = await collection.insertOne(newData);
+    console.log(`${result.insertedCount} documents inserted.`);
+    client.close();
+  }
+
+//  if(mongoFName) {
+//   newData
+//   .save()
+//   .then(() => {
+//     console.log("Combined data saved to MongoDB!");
+//     //remove data
+//     const db = admin.database();
+//     db.ref().remove();
+//     console.log("Data removed from Firebase!");
+//   })
+//   .catch((error) => {
+//     console.log(`Error saving data: ${error}`);
+//   });
+// }
